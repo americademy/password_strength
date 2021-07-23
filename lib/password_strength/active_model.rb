@@ -35,8 +35,8 @@ module ActiveModel # :nodoc:
       private
 
       def check_level_validity!(level)
-        unless [:weak, :good, :strong].include?(level) || level.respond_to?(:call)
-          raise ArgumentError, "The :level option must be one of [:weak, :good, :strong], a proc or a lambda"
+        unless [:weak, :basic, :good, :strong].include?(level) || level.respond_to?(:call)
+          raise ArgumentError, "The :level option must be one of [:weak, :basic, :good, :strong], a proc or a lambda"
         end
       end
 
@@ -55,7 +55,7 @@ module ActiveModel # :nodoc:
       #
       #   validates_strength_of :password, :with => :email
       #
-      # The available levels are: <tt>:weak</tt>, <tt>:good</tt> and <tt>:strong</tt>
+      # The available levels are: <tt>:weak</tt>, <tt>:basic</tt>, <tt>:good</tt> and <tt>:strong</tt>
       #
       # You can also provide a custom class/module that will test that password.
       #
@@ -63,7 +63,7 @@ module ActiveModel # :nodoc:
       #
       # Your +CustomPasswordTester+ class should override the default implementation. In practice, you're
       # going to override only the +test+ method that must call one of the following methods:
-      # <tt>invalid!</tt>, <tt>weak!</tt>, <tt>good!</tt> or <tt>strong!</tt>.
+      # <tt>invalid!</tt>, <tt>weak!</tt>, <tt>basic!</tt>, <tt>good!</tt> or <tt>strong!</tt>.
       #
       #   class CustomPasswordTester < PasswordStrength::Base
       #     def test

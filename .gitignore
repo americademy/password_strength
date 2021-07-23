@@ -5,3 +5,4 @@ doc
 /node_modules
 Gemfile.lock
 *.log
+.password-strength-gems

@@ -8,6 +8,7 @@ module PasswordStrength
     WEAK = :weak
     STRONG = :strong
     GOOD = :good
+    BASIC = :basic
 
     # Hold the username that will be matched against password.
     attr_accessor :username
@@ -18,7 +19,7 @@ module PasswordStrength
     # The score for the latest test. Will be +nil+ if the password has not been tested.
     attr_reader   :score
 
-    # The current test status. Can be +:weak+, +:good+, +:strong+ or +:invalid+.
+    # The current test status. Can be +:weak+, +:basic+, +:good+, +:strong+ or +:invalid+.
     attr_reader   :status
 
     # The ActiveRecord instance.
@@ -69,13 +70,15 @@ module PasswordStrength
     end
 
     # Check if the password has the specified score.
-    # Level can be +:weak+, +:good+ or +:strong+.
+    # Level can be +:weak+, +:basic+, +:good+ or +:strong+.
     def valid?(level = GOOD)
       case level
       when STRONG then
         strong?
       when GOOD then
         good? || strong?
+      when BASIC then
+        basic? || good? || strong?
       else
         !invalid?
       end
@@ -109,6 +112,16 @@ module PasswordStrength
     # Mark password as good.
     def good!
       @status = GOOD
+    end
+
+    # Check if the password has been detected as basic.
+    def basic?
+      status == BASIC
+    end
+
+    # Mark password as basic.
+    def basic!
+      @status = BASIC
     end
 
     # Check if password has invalid characters based on PasswordStrength::Base#exclude.
@@ -206,7 +219,8 @@ module PasswordStrength
         @score = 0 if score < 0
         @score = 100 if score > 100
 
-        weak!   if score < 35
+        weak!   if score < 20
+        basic!  if score >= 20 && score < 35
         good!   if score >= 35 && score < 70
         strong! if score >= 70
       end

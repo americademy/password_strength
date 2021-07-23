@@ -53,6 +53,9 @@ strength = PasswordStrength.test("johndoe", "mypass")
 strength.good?
 #=> status == :good
 
+strength.basic?
+#=> status == :basic
+
 strength.weak?
 #=> status == :weak
 

@@ -49,10 +49,14 @@
         score = 100;
       }
 
-      if (score < 35) {
+      if (score < 20) {
         this.status = "weak";
       }
 
+      if (score >= 20 && score < 35) {
+        this.status = "basic";
+      }
+      
       if (score >= 35 && score < 70) {
         this.status = "good";
       }

@@ -157,6 +157,10 @@
     return this.status == "good";
   };
 
+  PasswordStrength.fn.isBasic = function() {
+    return this.status == "basic";
+  };
+
   PasswordStrength.fn.isWeak = function() {
     return this.status == "weak";
   };
@@ -174,6 +178,8 @@
       return this.isStrong();
     } else if (level == "good") {
       return this.isStrong() || this.isGood();
+    } else if (level == "basic") {
+      return this.isStrong() || this.isGood() || this.isBasic();
     } else {
       return !this.containInvalidMatches() && !this.usesCommonWord();
     }

@@ -219,8 +219,8 @@ module PasswordStrength
         @score = 0 if score < 0
         @score = 100 if score > 100
 
-        weak!   if score < 20
-        basic!  if score >= 20 && score < 35
+        weak!   if score < 29
+        basic!  if score >= 29 && score < 35
         good!   if score >= 35 && score < 70
         strong! if score >= 70
       end
